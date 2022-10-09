@@ -20,11 +20,11 @@ namespace WeatherAlerts
         }
     }
 
-    public class AlertEventArgs : EventArgs
+    public class AlertEEventArgs : EventArgs
     {
         public DateTime Time { get; set; }
         public WeatherTypes WeatherType { get; set; }
-        public AlertEventArgs(DateTime time, WeatherTypes weatherType)
+        public AlertEEventArgs(DateTime time, WeatherTypes weatherType)
         {
             Time = time;
             WeatherType = weatherType;
@@ -71,7 +71,7 @@ namespace WeatherAlerts
         public WeatherTypes WeatherLookout { get; set; }
         public INotificationSenderE NotificationSender { get; set; }
 
-        private delegate void ExecuteAlertDelegate(object sender, AlertEventArgs eventArgs);
+        private delegate void ExecuteAlertDelegate(object sender, AlertEEventArgs eventArgs);
         private event ExecuteAlertDelegate _alertEvent;
         private event ExecuteAlertDelegate AlertEvent { add { _alertEvent += value; } remove { _alertEvent -= value; } }
 
@@ -85,7 +85,7 @@ namespace WeatherAlerts
             AlertEvent += RunAlertHandler;
             AlertEvent += NotificationSender.SendNotification;
         }
-        public void RunAlertHandler(object sender, AlertEventArgs alertEventArgs)
+        public void RunAlertHandler(object sender, AlertEEventArgs alertEventArgs)
         {
             Console.WriteLine("");
             if (sender is AlertE alert)
@@ -97,7 +97,7 @@ namespace WeatherAlerts
         }
         public void Trigger()
         {
-            _alertEvent.Invoke(this, new AlertEventArgs(TriggerTime, WeatherLookout));
+            _alertEvent.Invoke(this, new AlertEEventArgs(TriggerTime, WeatherLookout));
         }
 
         public void ChangeNotificationMethod(INotificationSenderE newNotificationSender)
@@ -110,12 +110,12 @@ namespace WeatherAlerts
 
     public interface INotificationSenderE
     {
-        void SendNotification(object sender, AlertEventArgs alertEventArgs);
+        void SendNotification(object sender, AlertEEventArgs alertEventArgs);
     }
 
     public class EmailNotificationsSenderE : INotificationSenderE
     {
-        public void SendNotification(object sender, AlertEventArgs alertEventArgs)
+        public void SendNotification(object sender, AlertEEventArgs alertEventArgs)
         {
             Console.WriteLine($"Sending Email Notification for {alertEventArgs.WeatherType} Forecast");
         }
@@ -123,7 +123,7 @@ namespace WeatherAlerts
 
     public class SMSNotificationsSenderE : INotificationSenderE
     {
-        public void SendNotification(object sender, AlertEventArgs alertEventArgs)
+        public void SendNotification(object sender, AlertEEventArgs alertEventArgs)
         {
             Console.WriteLine($"Sending SMS Notification for {alertEventArgs.WeatherType} Forecast");
         }
