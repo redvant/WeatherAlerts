@@ -8,6 +8,8 @@ namespace WeatherAlerts
         {
             Console.WriteLine("------- Delegates Example ------\n");
             DelegateExample.Test();
+            Console.WriteLine("\n------- Events Example ------");
+            EventExample.Test();
             Console.ReadLine();
         }
     }
