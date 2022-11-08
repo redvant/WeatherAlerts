@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WeatherAlerts.Api.Services.Alerts;
 
 namespace WeatherAlerts.Api
 {
@@ -25,6 +26,7 @@ namespace WeatherAlerts.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddScoped<IAlertService, AlertService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -34,6 +36,8 @@ namespace WeatherAlerts.Api
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseExceptionHandler("/error");
 
             app.UseRouting();
 
